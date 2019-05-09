@@ -3,27 +3,65 @@
 # MUY IMPORTANTE: Modificar el codigo para incorporarle las mejoras especificadas en los comentarios del codigo.
 
 import numpy as np
+#from numpy.random import seed
+#import pandas as pd
 import matplotlib.pyplot as plt
+#from matplotlib.colors import ListedColormap
+from matplotlib import rcParams 
+
+# Se configura el tamaño de la figura
+
+rcParams["figure.figsize"] = 10,5 
+#matplotlib inline
+
+#Función escalóm¿n
+def escalon(x):
+    return np.where(x>= 0.0, 1, 0)
+
+
+#Función Sigmoidea
+def sigmoidea(x, tipo, param, deriv = False):   #tipo: 1 = exp; 2 = tanh
+    if tipo == 1:
+        rv = 1/(1+np.exp(-2*param*x))
+        if deriv:
+            return 2*param*rv*(1-rv)
+        return rv
+    else:
+        rv = np.tanh(param*x)
+        if deriv:
+            return param*(1-rv**2)
+        return rv
+        
 
 class PerceptronSimple(object):
 
     # Constructor de la clase. 
-    def __init__(self, DimTrain):
+    # r se agregó como parámetro de categorías
+    def __init__(self, DimTrain,r):
         # Crea el vector de pesos w de la red neuronal y lo inicializa en cero. 
         # El vector w debe tener la dimension de los patrones de entrada, incrementado en 1 debido al bias.
         # El codigo del template es para un perceptron con una sola unidad de salida. 
         # MEJORAS SOLICITADAS: MEJORA 1) Modificarlo para que el perceptron pueda emitir un vector de salidas de dimension m > 1.
         # MEJORA 2) Modificarlo para que en lugar de inicializar los pesos w en cero, los inicialice en valores chicos random alrededor del cero.
+        
         self.w_ = np.zeros(1 + DimTrain)
+        #########self.w_ = np.random.random([1 + DimTrain, r])
+        
 
     # "Eta" es el factor de aprendizaje, y "epochs" el numero maximo de epocas de entrenamiento.
     # Los valores de eta y epochs en la primera linea, son los valores por defecto, si no se especifican dichos parametros en la funcion de llamada. 
-    def train(self, X, y, eta=0.01, epochs=100):
+    def train(self, X, y, eta=0.01, epochs=100, validation = False, Vset_X = [], Vset_y= [],umbral = 0):
         self.eta = eta
         self.epochs = epochs
         # Guarda el historial de los errores de clasificacion del conjunto de entremamiento en este vector. 
         # MEJORAS SOLICITADAS: Agregar que tambien se guarde el historial de los errores del conjunto de validacion.
         self.errors_ = []
+        
+        
+        if validation:
+            self.verrors_ = []
+        
+          
         # Entrena la red por la cantidad maxima de epocas especificada. 
         # MEJORAS SOLICITADAS: Modificarlo para que pare el entrenamiento cuando la funcion de costo (E[w] de la clase teorica) del conjunto de validacion
         # sea menor a cierto umbral, y no deba necesariamente entrenar la cantidad maxima de epocas.
