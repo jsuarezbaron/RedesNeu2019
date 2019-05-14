@@ -61,5 +61,17 @@ class PerceptronMulticapa(object):
 
     def predict(self, X, w):
             return self.sigmoid(self.net_input(X,w))
-    
-    
+            
+    #param: 
+    #tipo: 1 = exp; 2 = tanh
+    def sigmoidea(x, tipo, param, deriv = False):  
+    if tipo == 1:
+        rv = 1/(1+np.exp(-2*param*x))
+        if deriv:
+            return 2*param*rv*(1-rv)
+        return rv
+    else:
+        rv = np.tanh(param*x)
+        if deriv:
+            return param*(1-rv**2)
+        return rv
