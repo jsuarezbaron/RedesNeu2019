@@ -21,7 +21,7 @@ from perceptron_multicapa import PerceptronMulticapa
 # plt.ylabel('Clasificaciones erroneas')
 # plt.show()
 
-X2 = np.genfromtxt(fname='tp1_ej2_training.csv', delimiter=',',dtype=float, usecols=(0,1,2,3,4,5,6,7))    )
+X2 = np.genfromtxt(fname='tp1_ej2_training.csv', delimiter=',',dtype=float, usecols=(0,1,2,3,4,5,6,7))
 y2 = np.genfromtxt(fname='tp1_ej2_training.csv', delimiter=',',dtype=float, usecols=(8,9))
 
 for i in range(8):
