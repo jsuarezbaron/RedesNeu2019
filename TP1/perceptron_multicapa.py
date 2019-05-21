@@ -50,9 +50,12 @@ class PerceptronMulticapa(object):
             c = list(zip(X, y))
             np.random.shuffle(c)
             for mu_i, tar in c:
-            	target = np.array([tar])
-            	output = self.forward(mu_i)
-            	errors += self.backward(mu_i,output,target,self.eta)
+                if np.shape(tar)==():
+                    target = np.array([tar])
+                else:
+                    target = np.array(tar)
+                output = self.forward(mu_i)
+                errors += self.backward(mu_i,output,target,self.eta)
             errors = errors/(np.shape(X)[0])
             if errors <= umbral:
                 break
