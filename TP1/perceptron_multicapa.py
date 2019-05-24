@@ -75,7 +75,7 @@ class PerceptronMulticapa(object):
                     output = np.array([output])
                     y = np.array([y])
                 errors += 0.5 * sum((output - y)**2)
-            errors /= (np.shape(XTrain)[0])
+            errors /= (np.shape(XValid)[0])
             self.errorsValid_.append(errors)
             if self.errorsValid_[-1] < minVal:
                 minVal = self.errorsValid_[-1]
