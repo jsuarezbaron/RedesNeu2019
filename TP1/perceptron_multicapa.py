@@ -44,7 +44,7 @@ class PerceptronMulticapa(object):
     			self.w1_[i,j] += eta * mu[j] * self.delta1_[i]
     	return 0.5 * sum((target - output)**2)
 
-    def train(self, XTrain, yTrain, XValid, yValid, eta=0.01, epochs=100, umbral=10 ** -100):
+    def train(self, XTrain, yTrain, XValid, yValid, eta=0.01, epochs=100, umbral=0):
         self.eta = eta
         self.epochs = epochs
         self.errorsTrain_ = []
