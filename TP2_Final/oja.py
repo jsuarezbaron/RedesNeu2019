@@ -4,7 +4,7 @@ import math
 
 np.random.seed(20)
 
-class Sanger(object):
+class Oja(object):
 
 	def __init__(self, DimTrain, outputs, eta=0.001):
 		self.in_ = DimTrain
@@ -22,12 +22,12 @@ class Sanger(object):
 	def updateWeight(self, x):
 		for j in range(self.in_):
 			for i in range(self.out_):
-				self.delta_[i,j] = self.eta_ * self.output_[i] * (x[j] - np.dot(self.output_[0:i+1],self.w_[0:i+1,j]))
+				self.delta_[i,j] = self.eta_ * self.output_[i] * (x[j] - np.dot(self.output_,self.w_[:,j]))
 				self.w_[i,j] += self.delta_[i,j]
 
-	def train(self, X, epochs=5, umbral=1e-5):
+	def train(self, X, epochs=50, umbral=1e-5):
 		tamaño = np.shape(X)[0]
-		print("Regla Sanger")
+		print("Regla Oja")
 		for t in range(epochs):
 			print("Epoca: ",t+1)
 			self.eta_ -= t/10000
@@ -35,8 +35,6 @@ class Sanger(object):
 				mu = X[i,]
 				self.forward(mu)
 				self.updateWeight(mu)
-				#print(np.linalg.norm(self.delta_))
 				if(np.linalg.norm(self.delta_)<umbral):
 					break
 				#print(np.linalg.norm(self.delta_))
-		print("¡Finalizado!")
